@@ -1,9 +1,9 @@
 package org.activiti.starter.tests.util;
 
+import org.activiti.engine.impl.util.IoUtil;
+
 import java.io.IOException;
 import java.io.InputStream;
-
-import org.activiti.engine.impl.util.IoUtil;
 
 public class TestResourceUtil {
 

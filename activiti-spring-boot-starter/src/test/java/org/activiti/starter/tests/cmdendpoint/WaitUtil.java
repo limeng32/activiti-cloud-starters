@@ -1,9 +1,9 @@
 package org.activiti.starter.tests.cmdendpoint;
 
-import java.util.concurrent.atomic.AtomicBoolean;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class WaitUtil {
 
