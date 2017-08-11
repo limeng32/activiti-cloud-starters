@@ -9,7 +9,7 @@
   <version>7-201708-EA-SNAPSHOT</version>
   <properties>
     <!-- Spring Boot / Cloud / Stream deps -->
-    <spring.boot.version>2.0.0.M2</spring.boot.version>
+    <spring.boot.version>2.0.0.M3</spring.boot.version>
     <spring.cloud.version>Finchley.BUILD-SNAPSHOT</spring.cloud.version>
     <spring.cloud.stream.version>Elmhurst.BUILD-SNAPSHOT</spring.cloud.stream.version>
     <!-- using SNAPSHOT version to benefit from https://github.com/spring-projects/spring-hateoas/issues/583 -->
@@ -37,7 +37,17 @@
     <spring-boot-maven-plugin.version>1.5.4.RELEASE</spring-boot-maven-plugin.version>
     <docker.maven.plugin.version>0.21.0</docker.maven.plugin.version>
     <directory.maven.plugin.version>0.1</directory.maven.plugin.version>
-    <postgres.version>9.4.1212.jre7</postgres.version>
+    <springfox.version>2.7.0</springfox.version>
+    <mockito.version>2.7.22</mockito.version>
+    <junit.version>4.12</junit.version>
+    <assertj.version>3.8.0</assertj.version>
+    <jsonunit.version>1.24.0</jsonunit.version>
+    <build-helper-maven-plugin.version>3.0.0</build-helper-maven-plugin.version>
+    <assertions-generator-plugin.version>2.0.0</assertions-generator-plugin.version>
+
+    <!-- configuration properties for tests-->
+    <generated-assertions-folder>${project.build.directory}/generated-test-sources/assertions</generated-assertions-folder>
+    <generated-assertions-package>org.activiti.test</generated-assertions-package>
   </properties>
 
   <repositories>
@@ -80,6 +90,25 @@
       </snapshots>
     </repository>
   </repositories>
+
+  <pluginRepositories>
+    <pluginRepository>
+      <id>spring-snapshots</id>
+      <name>Spring Snapshots</name>
+      <url>http://repo.spring.io/snapshot</url>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </pluginRepository>
+    <pluginRepository>
+      <id>spring-milestones</id>
+      <name>Spring Milestones</name>
+      <url>http://repo.spring.io/milestone</url>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </pluginRepository>
+  </pluginRepositories>
 
   <distributionManagement>
     <repository>
@@ -159,7 +188,17 @@
       </dependency>
       <dependency>
         <groupId>org.activiti</groupId>
+        <artifactId>activiti-services-audit-jpa</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.activiti</groupId>
         <artifactId>activiti-services-identity-keycloak</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.activiti</groupId>
+        <artifactId>activiti-services-api</artifactId>
         <version>${project.version}</version>
       </dependency>
 
@@ -190,12 +229,32 @@
         <artifactId>spring-hateoas</artifactId>
         <version>${spring.hateoas.version}</version>
       </dependency>
-      <dependency>
-        <groupId>org.postgresql</groupId>
-        <artifactId>postgresql</artifactId>
-        <version>${postgres.version}</version>
-      </dependency>
 
+      <dependency>
+        <groupId>io.springfox</groupId>
+        <artifactId>springfox-core</artifactId>
+        <version>${springfox.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.springfox</groupId>
+        <artifactId>springfox-spi</artifactId>
+        <version>${springfox.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.springfox</groupId>
+        <artifactId>springfox-spring-web</artifactId>
+        <version>${springfox.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.springfox</groupId>
+        <artifactId>springfox-swagger2</artifactId>
+        <version>${springfox.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.springfox</groupId>
+        <artifactId>springfox-swagger-ui</artifactId>
+        <version>${springfox.version}</version>
+      </dependency>
 
 
       <!-- Test -->
@@ -207,7 +266,7 @@
       </dependency>
       <dependency>
         <groupId>org.activiti</groupId>
-        <artifactId>activiti-spring-boot-test</artifactId>
+        <artifactId>activiti-services-test</artifactId>
         <version>${project.version}</version>
         <scope>test</scope>
       </dependency>
@@ -223,6 +282,12 @@
         <version>${mockito.version}</version>
         <scope>test</scope>
       </dependency>
+      <dependency>
+        <groupId>net.javacrumbs.json-unit</groupId>
+        <artifactId>json-unit-fluent</artifactId>
+        <version>${jsonunit.version}</version>
+        <scope>test</scope>
+      </dependency>
 
 
       <!-- TEST(DB) -->
@@ -230,7 +295,6 @@
         <groupId>com.h2database</groupId>
         <artifactId>h2</artifactId>
         <version>${h2.version}</version>
-        <scope>test</scope>
       </dependency>
 
     </dependencies>
@@ -239,7 +303,8 @@
   <modules>
     <module>activiti-spring-boot-starter</module>
     <module>activiti-spring-boot-starter-basic</module>
-    <module>activiti-spring-boot-test</module>
+    <module>activiti-spring-boot-audit-starter</module>
+    <module>activiti-spring-boot-audit-sample</module>
   </modules>
 
   <build>
@@ -253,6 +318,66 @@
           <showDeprecation>true</showDeprecation>
           <showWarnings>true</showWarnings>
           <optimize>true</optimize>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.eclipse.m2e</groupId>
+        <artifactId>lifecycle-mapping</artifactId>
+        <version>1.0.0</version>
+        <configuration>
+          <lifecycleMappingMetadata>
+            <pluginExecutions>
+              <pluginExecution>
+                <pluginExecutionFilter>
+                  <groupId>org.commonjava.maven.plugins</groupId>
+                  <artifactId>directory-maven-plugin</artifactId>
+                  <versionRange>[0.1,)</versionRange>
+                  <goals>
+                    <goal>highest-basedir</goal>
+                  </goals>
+                </pluginExecutionFilter>
+                <action>
+                  <execute>
+                    <runOnIncremental>true</runOnIncremental>
+                    <runOnConfiguration>true</runOnConfiguration>
+                  </execute>
+                </action>
+              </pluginExecution>
+              <pluginExecution>
+                <pluginExecutionFilter>
+                  <groupId>org.codehaus.mojo</groupId>
+                  <artifactId>exec-maven-plugin</artifactId>
+                  <versionRange>[1.5.0,)</versionRange>
+                  <goals>
+                    <goal>java</goal>
+                    <goal>exec</goal>
+                  </goals>
+                </pluginExecutionFilter>
+                <action>
+                  <execute>
+                    <runOnIncremental>true</runOnIncremental>
+                    <runOnConfiguration>true</runOnConfiguration>
+                  </execute>
+                </action>
+              </pluginExecution>
+              <pluginExecution>
+                <pluginExecutionFilter>
+                  <groupId>org.assertj</groupId>
+                  <artifactId>assertj-assertions-generator-maven-plugin</artifactId>
+                  <versionRange>[2.0.0,)</versionRange>
+                  <goals>
+                    <goal>generate-assertions</goal>
+                  </goals>
+                </pluginExecutionFilter>
+                <action>
+                  <execute>
+                    <runOnIncremental>true</runOnIncremental>
+                    <runOnConfiguration>true</runOnConfiguration>
+                  </execute>
+                </action>
+              </pluginExecution>
+            </pluginExecutions>
+          </lifecycleMappingMetadata>
         </configuration>
       </plugin>
       <plugin>
@@ -519,7 +644,45 @@
             </execution>
           </executions>
         </plugin>
-
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>build-helper-maven-plugin</artifactId>
+          <version>${build-helper-maven-plugin.version}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.commonjava.maven.plugins</groupId>
+          <artifactId>directory-maven-plugin</artifactId>
+          <version>${directory.maven.plugin.version}</version>
+          <executions>
+            <execution>
+              <id>directories</id>
+              <goals>
+                <goal>highest-basedir</goal>
+              </goals>
+              <phase>initialize</phase>
+              <configuration>
+                <property>main.basedir</property>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
+        <plugin>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-maven-plugin</artifactId>
+          <version>${spring.boot.version}</version>
+          <executions>
+            <execution>
+              <goals>
+                <goal>repackage</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+        <plugin>
+          <groupId>org.assertj</groupId>
+          <artifactId>assertj-assertions-generator-maven-plugin</artifactId>
+          <version>${assertions-generator-plugin.version}</version>
+        </plugin>
       </plugins>
     </pluginManagement>
   </build>

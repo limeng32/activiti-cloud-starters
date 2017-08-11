@@ -3,7 +3,7 @@
 
   <parent>
     <groupId>org.activiti</groupId>
-    <artifactId>activiti-spring-boot-starters</artifactId>
+    <artifactId>activiti-spring-boot-starters-root</artifactId>
     <version>7-201708-EA-SNAPSHOT</version>
   </parent>
 
