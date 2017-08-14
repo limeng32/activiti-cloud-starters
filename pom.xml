@@ -133,6 +133,11 @@
       </dependency>
       <dependency>
         <groupId>org.activiti</groupId>
+        <artifactId>activiti-engine</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.activiti</groupId>
         <artifactId>activiti-services-core</artifactId>
         <version>${project.version}</version>
       </dependency>
@@ -164,6 +169,11 @@
       <dependency>
         <groupId>org.activiti</groupId>
         <artifactId>activiti-services-api</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.activiti</groupId>
+        <artifactId>activiti-cloud-starter-configure</artifactId>
         <version>${project.version}</version>
       </dependency>
 
