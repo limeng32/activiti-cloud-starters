@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.activiti.services.audit;
+package org.activiti.starter.audit;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;

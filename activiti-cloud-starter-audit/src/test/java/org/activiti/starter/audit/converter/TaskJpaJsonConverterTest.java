@@ -14,10 +14,11 @@
  * limitations under the License.
  */
 
-package org.activiti.services.audit.converter;
+package org.activiti.starter.audit.converter;
 
 import java.util.Date;
 
+import org.activiti.services.audit.converter.TaskJpaJsonConverter;
 import org.activiti.services.audit.events.model.Task;
 import org.junit.Test;
 

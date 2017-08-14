@@ -14,12 +14,13 @@
  * limitations under the License.
  */
 
-package org.activiti.services.audit;
+package org.activiti.starter.audit;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.activiti.services.audit.EventsRepository;
 import org.activiti.services.audit.events.ActivityStartedEventEntity;
 import org.activiti.services.audit.events.ActivityStartedEventEntityAssert;
 import org.activiti.services.audit.events.ProcessEngineEventEntity;
@@ -32,7 +33,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.hateoas.PagedResources;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.assertj.core.api.Assertions.*;

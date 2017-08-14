@@ -14,8 +14,9 @@
  * limitations under the License.
  */
 
-package org.activiti.services.audit;
+package org.activiti.starter.audit;
 
+import org.activiti.services.audit.EventsRelProvider;
 import org.activiti.services.audit.events.ActivityCompletedEventEntity;
 import org.activiti.services.audit.events.ProcessEngineEventEntity;
 import org.activiti.services.api.events.ProcessEngineEvent;

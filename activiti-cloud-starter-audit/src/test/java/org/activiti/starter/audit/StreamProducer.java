@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.activiti.services.audit;
+package org.activiti.starter.audit;
 
 import org.springframework.cloud.stream.annotation.Output;
 import org.springframework.messaging.MessageChannel;

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.activiti.configuration;
+package org.activiti.starter.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -31,7 +31,7 @@ public class SwaggerConfig {
     @Bean
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2).select()
-                                                      .apis(RequestHandlerSelectors.basePackage("org.activiti.services.audit"))
+                                                      .apis(RequestHandlerSelectors.basePackage("org.activiti.services"))
                                                       .paths(PathSelectors.any())
                                                       .build();
     }

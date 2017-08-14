@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.activiti.services.audit;
+package org.activiti.starter.audit;
 
 import org.activiti.services.api.events.ProcessEngineEvent;
 import org.springframework.beans.factory.annotation.Autowired;
