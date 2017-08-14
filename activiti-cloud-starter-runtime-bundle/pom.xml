@@ -107,7 +107,7 @@
     </dependency>
     <dependency>
       <groupId>org.activiti</groupId>
-      <artifactId>activiti-spring-boot-starter-configure</artifactId>
+      <artifactId>activiti-cloud-starter-configure</artifactId>
       <version>${project.version}</version>
     </dependency>
 
