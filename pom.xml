@@ -269,7 +269,6 @@
     <module>activiti-cloud-starter-runtime-bundle</module>
     <module>activiti-cloud-starter-configure</module>
     <module>activiti-cloud-starter-audit</module>
-    <module>activiti-cloud-audit</module>
   </modules>
 
   <build>
