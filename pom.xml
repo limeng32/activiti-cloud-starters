@@ -1,10 +1,10 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <name>Activiti Spring Boot Starters</name>
-  <description>Engine and Services Starters</description>
+  <name>Activiti Cloud Starters</name>
+  <description>Activiti Spring Cloud Starters</description>
   <groupId>org.activiti</groupId>
-  <artifactId>activiti-spring-boot-starters-root</artifactId>
+  <artifactId>activiti-cloud-starters-root</artifactId>
   <packaging>pom</packaging>
   <version>7-201708-EA-SNAPSHOT</version>
   <properties>
@@ -128,42 +128,7 @@
       <!-- Activiti Modules for managed dependencies -->
       <dependency>
         <groupId>org.activiti</groupId>
-        <artifactId>activiti-engine</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.activiti</groupId>
         <artifactId>activiti-spring</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.activiti</groupId>
-        <artifactId>activiti-bpmn-model</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.activiti</groupId>
-        <artifactId>activiti-image-generator</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.activiti</groupId>
-        <artifactId>activiti-bpmn-converter</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.activiti</groupId>
-        <artifactId>activiti-json-converter</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.activiti</groupId>
-        <artifactId>activiti-bpmn-layout</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.activiti</groupId>
-        <artifactId>activiti-process-validation</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>
@@ -301,10 +266,9 @@
   </dependencyManagement>
 
   <modules>
-    <module>activiti-spring-boot-starter</module>
-    <module>activiti-spring-boot-starter-basic</module>
-    <module>activiti-spring-boot-audit-starter</module>
-    <module>activiti-spring-boot-audit-sample</module>
+    <module>activiti-cloud-starter-runtime-bundle</module>
+    <module>activiti-cloud-starter-configure</module>
+    <module>activiti-cloud-starter-audit</module>
   </modules>
 
   <build>

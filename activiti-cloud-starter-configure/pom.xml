@@ -3,19 +3,15 @@
 
   <parent>
     <groupId>org.activiti</groupId>
-    <artifactId>activiti-spring-boot-starters-root</artifactId>
+    <artifactId>activiti-cloud-starters-root</artifactId>
     <version>7-201708-EA-SNAPSHOT</version>
   </parent>
 
-  <artifactId>activiti-spring-boot-starter-basic</artifactId>
+  <artifactId>activiti-cloud-starter-configure</artifactId>
 
   <dependencies>
 
     <!-- common -->
-    <dependency>
-      <groupId>org.activiti</groupId>
-      <artifactId>activiti-engine</artifactId>
-    </dependency>
     <dependency>
       <groupId>org.activiti</groupId>
       <artifactId>activiti-spring</artifactId>
@@ -68,18 +64,6 @@
       <groupId>org.codehaus.groovy</groupId>
       <artifactId>groovy</artifactId>
       <scope>test</scope>
-    </dependency>
-
-    <!-- actuator -->
-    <dependency>
-      <groupId>org.activiti</groupId>
-      <artifactId>activiti-bpmn-model</artifactId>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>org.activiti</groupId>
-      <artifactId>activiti-bpmn-layout</artifactId>
-      <optional>true</optional>
     </dependency>
 
 
