@@ -1,3 +1,3 @@
-# activiti-spring-boot-starters
+# activiti-cloud-starters
 
-Starters for Activiti-based apps and Activiti services
+Starters for Activiti Cloud Based apps. 
