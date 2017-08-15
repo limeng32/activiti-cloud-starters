@@ -16,6 +16,7 @@
 
 package org.activiti.cloud.starter.tests;
 
+import org.activiti.cloud.starter.configuration.ActivitiRuntimeBundle;
 import org.activiti.services.events.ProcessEngineChannels;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -23,8 +24,7 @@ import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
-@ComponentScan("org.activiti")
-@EnableBinding(ProcessEngineChannels.class)
+@ActivitiRuntimeBundle
 public class Application {
 
     public static void main(String[] args) {

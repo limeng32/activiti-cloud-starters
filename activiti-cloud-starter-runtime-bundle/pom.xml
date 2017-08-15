@@ -10,6 +10,16 @@
   <artifactId>activiti-cloud-starter-runtime-bundle</artifactId>
 
   <dependencies>
+
+    <dependency>
+      <groupId>org.activiti</groupId>
+      <artifactId>activiti-engine</artifactId>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.activiti</groupId>
+      <artifactId>activiti-cloud-starter-configure</artifactId>
+    </dependency>
     <!-- keycloak included as default identity provider to be excluded if overridden -->
     <dependency>
       <groupId>org.activiti</groupId>
@@ -105,13 +115,7 @@
       <groupId>org.springframework.data</groupId>
       <artifactId>spring-data-commons</artifactId>
     </dependency>
-    <dependency>
-      <groupId>org.activiti</groupId>
-      <artifactId>activiti-cloud-starter-configure</artifactId>
-      <version>${project.version}</version>
-    </dependency>
 
-    <!-- common -->
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
@@ -126,10 +130,12 @@
     <dependency>
       <groupId>org.assertj</groupId>
       <artifactId>assertj-core</artifactId>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.mockito</groupId>
       <artifactId>mockito-core</artifactId>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>com.h2database</groupId>
