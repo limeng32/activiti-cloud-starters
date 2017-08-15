@@ -14,15 +14,23 @@
  * limitations under the License.
  */
 
-package org.activiti.cloud.starter.audit;
+package org.activiti.cloud.starter.audit.tests.it;
 
-import org.springframework.cloud.stream.annotation.Output;
+import org.activiti.services.api.events.ProcessEngineEvent;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.messaging.MessageChannel;
+import org.springframework.messaging.support.MessageBuilder;
+import org.springframework.stereotype.Component;
 
-public interface StreamProducer {
+@Component
+@EnableBinding(StreamProducer.class)
+public class MyProducer {
 
-    String PRODUCER = "producer";
+    @Autowired
+    private MessageChannel producer;
 
-    @Output(PRODUCER)
-    MessageChannel producer();
+    public void send(ProcessEngineEvent newEvent) {
+        producer.send(MessageBuilder.withPayload(newEvent).build());
+    }
 }

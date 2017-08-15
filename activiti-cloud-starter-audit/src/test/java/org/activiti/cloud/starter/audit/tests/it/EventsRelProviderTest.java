@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.activiti.cloud.starter.audit;
+package org.activiti.cloud.starter.audit.tests.it;
 
 import org.activiti.services.audit.EventsRelProvider;
 import org.activiti.services.audit.events.ActivityCompletedEventEntity;

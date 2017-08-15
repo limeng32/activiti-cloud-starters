@@ -14,12 +14,13 @@
  * limitations under the License.
  */
 
-package org.activiti.cloud.starter.audit;
+package org.activiti.cloud.starter.audit.tests.it;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.activiti.cloud.starter.audit.tests.JpaAuditApplication;
 import org.activiti.services.audit.EventsRepository;
 import org.activiti.services.audit.events.ActivityStartedEventEntity;
 import org.activiti.services.audit.events.ActivityStartedEventEntityAssert;
@@ -38,7 +39,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import static org.assertj.core.api.Assertions.*;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = {JpaAuditApplication.class,EventsRestTemplate.class,EventsRepository.class,MyProducer.class})
 @DirtiesContext
 public class AuditServiceIT {
 

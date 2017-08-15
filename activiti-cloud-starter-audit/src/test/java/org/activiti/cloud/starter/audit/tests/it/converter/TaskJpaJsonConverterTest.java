@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.activiti.cloud.starter.audit.converter;
+package org.activiti.cloud.starter.audit.tests.it.converter;
 
 import java.util.Date;
 
