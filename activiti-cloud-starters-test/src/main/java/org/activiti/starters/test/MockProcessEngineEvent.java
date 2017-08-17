@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.activiti.cloud.starter.audit.tests.it;
+package org.activiti.starters.test;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -33,20 +33,6 @@ public class MockProcessEngineEvent implements ProcessEngineEvent {
 
     public MockProcessEngineEvent(Long timestamp,
                                   String eventType,
-                                  String applicationName,
-                                  String executionId,
-                                  String processDefinitionId,
-                                  String processInstanceId) {
-        this.timestamp = timestamp;
-        this.eventType = eventType;
-        this.applicationName = applicationName;
-        this.executionId = executionId;
-        this.processDefinitionId = processDefinitionId;
-        this.processInstanceId = processInstanceId;
-    }
-
-    public MockProcessEngineEvent(Long timestamp,
-                                  String eventType,
                                   String executionId,
                                   String processDefinitionId,
                                   String processInstanceId) {
@@ -56,6 +42,28 @@ public class MockProcessEngineEvent implements ProcessEngineEvent {
         this.executionId = executionId;
         this.processDefinitionId = processDefinitionId;
         this.processInstanceId = processInstanceId;
+    }
+
+    public static ProcessEngineEvent aProcessStartedEvent(Long timestamp,
+                                                          String executionId,
+                                                          String processDefinitionId,
+                                                          String processInstanceId) {
+       return new MockProcessEngineEvent(timestamp,
+                                   "ProcessStartedEvent",
+                                   executionId,
+                                   processDefinitionId,
+                                   processInstanceId);
+    }
+
+    public static ProcessEngineEvent aProcessCompletedEvent(Long timestamp,
+                                                          String executionId,
+                                                          String processDefinitionId,
+                                                          String processInstanceId) {
+        return new MockProcessEngineEvent(timestamp,
+                                          "ProcessCompletedEvent",
+                                          executionId,
+                                          processDefinitionId,
+                                          processInstanceId);
     }
 
     @Override

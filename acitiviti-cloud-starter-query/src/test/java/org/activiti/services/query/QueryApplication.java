@@ -14,15 +14,21 @@
  * limitations under the License.
  */
 
-package org.activiti.cloud.starter.audit.tests.it;
+package org.activiti.services.query;
 
-import org.springframework.cloud.stream.annotation.Output;
-import org.springframework.messaging.MessageChannel;
+import org.activiti.cloud.starter.configuration.EnableActivitiQuery;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
 
-public interface StreamProducer {
+@SpringBootApplication
+@EnableActivitiQuery
+@ComponentScan("org.activiti")
+public class QueryApplication {
 
-    String PRODUCER = "producer";
+    public static void main(String[] args) {
+        SpringApplication.run(QueryApplication.class,
+                              args);
+    }
 
-    @Output(PRODUCER)
-    MessageChannel producer();
 }

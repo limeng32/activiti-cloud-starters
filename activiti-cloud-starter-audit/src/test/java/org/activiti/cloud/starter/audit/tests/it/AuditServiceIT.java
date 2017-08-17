@@ -21,11 +21,13 @@ import java.util.Collection;
 import java.util.List;
 
 import org.activiti.cloud.starter.audit.tests.JpaAuditApplication;
+import org.activiti.services.api.events.ProcessEngineEvent;
 import org.activiti.services.audit.EventsRepository;
 import org.activiti.services.audit.events.ActivityStartedEventEntity;
 import org.activiti.services.audit.events.ActivityStartedEventEntityAssert;
 import org.activiti.services.audit.events.ProcessEngineEventEntity;
-import org.activiti.services.api.events.ProcessEngineEvent;
+import org.activiti.starters.test.MockProcessEngineEvent;
+import org.activiti.starters.test.MyProducer;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
