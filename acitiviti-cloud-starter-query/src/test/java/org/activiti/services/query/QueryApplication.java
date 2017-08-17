@@ -23,11 +23,7 @@ import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
 @EnableActivitiQuery
-@ComponentScan(basePackages = {
-        "org.activiti",
-        "org.activiti.services.query.app",
-        "org.activiti.services.identity.keycloak"
-})
+@ComponentScan("org.activiti")
 public class QueryApplication {
 
     public static void main(String[] args) {

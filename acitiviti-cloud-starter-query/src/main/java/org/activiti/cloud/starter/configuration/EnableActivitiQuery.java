@@ -14,7 +14,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-@EnableJpaRepositories("org.activiti.services.query.app.repository")
+@EnableJpaRepositories({"org.activiti.services.query.app.repository"})
 @EntityScan(basePackages = {"org.activiti.services.query.model"})
 @EnableBinding(QueryConsumerChannels.class)
 @Inherited

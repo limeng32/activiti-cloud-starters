@@ -49,7 +49,7 @@ public class MockProcessEngineEvent implements ProcessEngineEvent {
                                                           String processDefinitionId,
                                                           String processInstanceId) {
        return new MockProcessEngineEvent(timestamp,
-                                   "ActivityStartedEvent",
+                                   "ProcessStartedEvent",
                                    executionId,
                                    processDefinitionId,
                                    processInstanceId);
@@ -60,7 +60,7 @@ public class MockProcessEngineEvent implements ProcessEngineEvent {
                                                           String processDefinitionId,
                                                           String processInstanceId) {
         return new MockProcessEngineEvent(timestamp,
-                                          "ActivityCompletedEvent",
+                                          "ProcessCompletedEvent",
                                           executionId,
                                           processDefinitionId,
                                           processInstanceId);

@@ -18,9 +18,7 @@ package org.activiti.services.query;
 
 import java.util.Collection;
 
-import org.activiti.services.query.app.QueryConsumer;
 import org.activiti.services.query.app.repository.ProcessInstanceRepository;
-import org.activiti.services.query.app.repository.VariableRepository;
 import org.activiti.services.query.model.ProcessInstance;
 import org.activiti.starters.test.MyProducer;
 import org.junit.After;
@@ -29,7 +27,6 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.hateoas.PagedResources;
 import org.springframework.http.HttpMethod;
@@ -43,11 +40,10 @@ import static org.assertj.core.api.Assertions.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@ComponentScan("org.activiti")
 public class QueryProcessInstancesIT {
 
     private static final String PROC_URL = "/v1/process-instances";
-    private static final ParameterizedTypeReference<PagedResources<ProcessInstance>> PAGED_TASKS_RESPONSE_TYPE = new ParameterizedTypeReference<PagedResources<ProcessInstance>>() {
+    private static final ParameterizedTypeReference<PagedResources<ProcessInstance>> PAGED_PROCESS_INSTANCE_RESPONSE_TYPE = new ParameterizedTypeReference<PagedResources<ProcessInstance>>() {
     };
 
     @Autowired
@@ -55,14 +51,9 @@ public class QueryProcessInstancesIT {
 
     @Autowired
     private ProcessInstanceRepository processInstanceRepository;
-    @Autowired
-    private VariableRepository variableRepository;
 
     @Autowired
     private MyProducer producer;
-
-    @Autowired
-    private QueryConsumer queryConsumer;
 
     @After
     public void tearDown() throws Exception {
@@ -70,9 +61,9 @@ public class QueryProcessInstancesIT {
     }
 
     @Test
-    public void shouldGetAvailableProcInsts() throws Exception {
+    public void shouldGetAvailableProcInstances() throws Exception {
         //given
-        // a process completed
+        // a completed process
         producer.send(aProcessStartedEvent(System.currentTimeMillis(),
                                            "10",
                                            "defId",
@@ -82,7 +73,7 @@ public class QueryProcessInstancesIT {
                                              "defId",
                                              "15"));
 
-        // a process started
+        // a running process
         producer.send(aProcessStartedEvent(System.currentTimeMillis(),
                                            "11",
                                            "defId",
@@ -91,7 +82,7 @@ public class QueryProcessInstancesIT {
         waitForMessage();
 
         //when
-        ResponseEntity<PagedResources<ProcessInstance>> responseEntity = executeRequestGetProcInsts();
+        ResponseEntity<PagedResources<ProcessInstance>> responseEntity = executeRequestGetProcInstances();
 
         //then
         assertThat(responseEntity).isNotNull();
@@ -101,17 +92,57 @@ public class QueryProcessInstancesIT {
         assertThat(processInstances)
                 .extracting(ProcessInstance::getProcessInstanceId,
                             ProcessInstance::getStatus)
-                .contains(tuple("15",
+                .contains(tuple(15L,
                                 "COMPLETED"),
-                          tuple("16",
+                          tuple(16L,
                                 "RUNNING"));
     }
 
-    private ResponseEntity<PagedResources<ProcessInstance>> executeRequestGetProcInsts() {
+    @Test
+    public void shouldFilterOnStatus() throws Exception {
+        //given
+        // a completed process
+        producer.send(aProcessStartedEvent(System.currentTimeMillis(),
+                                           "10",
+                                           "defId",
+                                           "15"));
+        producer.send(aProcessCompletedEvent(System.currentTimeMillis(),
+                                             "10",
+                                             "defId",
+                                             "15"));
+
+        // a running process
+        producer.send(aProcessStartedEvent(System.currentTimeMillis(),
+                                           "11",
+                                           "defId",
+                                           "16"));
+
+        waitForMessage();
+
+        //when
+        ResponseEntity<PagedResources<ProcessInstance>> responseEntity = testRestTemplate.exchange(PROC_URL + "?status={status}",
+                                                                                                   HttpMethod.GET,
+                                                                                                   null,
+                                                                                                   PAGED_PROCESS_INSTANCE_RESPONSE_TYPE,
+                                                                                                   "COMPLETED");
+
+        //then
+        assertThat(responseEntity).isNotNull();
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+
+        Collection<ProcessInstance> processInstances = responseEntity.getBody().getContent();
+        assertThat(processInstances)
+                .extracting(ProcessInstance::getProcessInstanceId,
+                            ProcessInstance::getStatus)
+                .containsExactly(tuple(15L,
+                                       "COMPLETED"));
+    }
+
+    private ResponseEntity<PagedResources<ProcessInstance>> executeRequestGetProcInstances() {
         return testRestTemplate.exchange(PROC_URL,
                                          HttpMethod.GET,
                                          null,
-                                         PAGED_TASKS_RESPONSE_TYPE);
+                                         PAGED_PROCESS_INSTANCE_RESPONSE_TYPE);
     }
 
     private void waitForMessage() throws InterruptedException {
