@@ -41,7 +41,7 @@ public class TaskRestTemplate {
 
     public ResponseEntity<Void> setVariables(String taskId, Map<String, Object> variables) {
         SetTaskVariablesCmd setTaskVariablesCmd = new SetTaskVariablesCmd(taskId, variables);
-        
+
         HttpEntity<SetTaskVariablesCmd> requestEntity = new HttpEntity<>(
                 setTaskVariablesCmd,
                 null);
@@ -56,9 +56,9 @@ public class TaskRestTemplate {
 
     public ResponseEntity<Void> setVariablesLocal(String taskId, Map<String, Object> variables) {
         SetTaskVariablesCmd setTaskVariablesCmd = new SetTaskVariablesCmd(taskId, variables);
-        
+
         HttpEntity<SetTaskVariablesCmd> requestEntity = new HttpEntity<>(
-                setTaskVariablesCmd, 
+                setTaskVariablesCmd,
                 null);
         ResponseEntity<Void> responseEntity = testRestTemplate.exchange(TaskRestTemplate.TASK_VAR_RELATIVE_URL + taskId + "/variables/local",
                                                                                                  HttpMethod.POST,

@@ -18,6 +18,9 @@
 
 package org.activiti.cloud.starter.tests.cmdendpoint;
 
+import org.activiti.engine.HistoryService;
+import org.activiti.engine.RepositoryService;
+import org.activiti.engine.RuntimeService;
 import org.activiti.services.core.model.ProcessDefinition;
 import org.activiti.services.core.model.ProcessInstance;
 import org.activiti.services.core.model.Task;
@@ -54,6 +57,7 @@ import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -116,6 +120,9 @@ public class CommandEndpointIT {
             processDefinitionIds.put(pd.getName(),
                                      pd.getId());
         }
+
+
+
     }
 
     @EnableAutoConfiguration
