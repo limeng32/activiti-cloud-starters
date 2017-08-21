@@ -1,4 +1,4 @@
-package org.activiti.cloud.starter.configuration;/*
+/*
  * Copyright 2017 Alfresco, Inc. and/or its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,6 +13,8 @@ package org.activiti.cloud.starter.configuration;/*
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+package org.activiti.cloud.starter.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

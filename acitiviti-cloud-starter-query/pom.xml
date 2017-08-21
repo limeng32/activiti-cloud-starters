@@ -23,34 +23,14 @@
       <artifactId>activiti-services-query-rest</artifactId>
       <version>${project.version}</version>
     </dependency>
-    <!--<dependency>-->
-      <!--<groupId>org.activiti</groupId>-->
-      <!--<artifactId>activiti-services-api</artifactId>-->
-    <!--</dependency>-->
-    <!--<dependency>-->
-      <!--<groupId>com.fasterxml.jackson.core</groupId>-->
-      <!--<artifactId>jackson-annotations</artifactId>-->
-    <!--</dependency>-->
-    <!--<dependency>-->
-      <!--<groupId>org.springframework.boot</groupId>-->
-      <!--<artifactId>spring-boot-starter-amqp</artifactId>-->
-    <!--</dependency>-->
     <dependency>
       <groupId>org.springframework.cloud</groupId>
       <artifactId>spring-cloud-starter-eureka</artifactId>
     </dependency>
-    <!--<dependency>-->
-      <!--<groupId>org.springframework.boot</groupId>-->
-      <!--<artifactId>spring-boot-starter-hateoas</artifactId>-->
-    <!--</dependency>-->
     <dependency>
       <groupId>org.springframework.cloud</groupId>
       <artifactId>spring-cloud-starter-sleuth</artifactId>
     </dependency>
-    <!--<dependency>-->
-      <!--<groupId>org.springframework.hateoas</groupId>-->
-      <!--<artifactId>spring-hateoas</artifactId>-->
-    <!--</dependency>-->
     <dependency>
       <groupId>io.springfox</groupId>
       <artifactId>springfox-core</artifactId>
@@ -71,18 +51,6 @@
       <groupId>io.springfox</groupId>
       <artifactId>springfox-swagger-ui</artifactId>
     </dependency>
-    <!--<dependency>-->
-      <!--<groupId>org.springframework</groupId>-->
-      <!--<artifactId>spring-context</artifactId>-->
-    <!--</dependency>-->
-    <!--<dependency>-->
-      <!--<groupId>org.springframework</groupId>-->
-      <!--<artifactId>spring-beans</artifactId>-->
-    <!--</dependency>-->
-    <!--<dependency>-->
-      <!--<groupId>org.springframework</groupId>-->
-      <!--<artifactId>spring-web</artifactId>-->
-    <!--</dependency>-->
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-web</artifactId>
@@ -101,17 +69,6 @@
       <artifactId>spring-boot-starter-jetty</artifactId>
     </dependency>
 
-    <!--<dependency>-->
-      <!--<groupId>org.springframework.data</groupId>-->
-      <!--<artifactId>spring-data-commons</artifactId>-->
-    <!--</dependency>-->
-
-    <!-- common -->
-    <!--<dependency>-->
-      <!--<groupId>org.slf4j</groupId>-->
-      <!--<artifactId>slf4j-api</artifactId>-->
-    <!--</dependency>-->
-
     <!-- Test deps -->
     <dependency>
       <groupId>org.assertj</groupId>
@@ -127,11 +84,6 @@
       <artifactId>h2</artifactId>
       <scope>test</scope>
     </dependency>
-    <!--<dependency>-->
-      <!--<groupId>ch.qos.logback</groupId>-->
-      <!--<artifactId>logback-classic</artifactId>-->
-      <!--<scope>test</scope>-->
-    <!--</dependency>-->
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
@@ -142,11 +94,6 @@
       <artifactId>spring-boot-test</artifactId>
       <scope>test</scope>
     </dependency>
-    <!--<dependency>-->
-      <!--<groupId>net.javacrumbs.json-unit</groupId>-->
-      <!--<artifactId>json-unit-fluent</artifactId>-->
-      <!--<scope>test</scope>-->
-    <!--</dependency>-->
     <dependency>
       <groupId>org.activiti</groupId>
       <artifactId>activiti-services-test</artifactId>
@@ -246,65 +193,6 @@
           </execution>
         </executions>
       </plugin>
-      <!--<plugin>-->
-        <!--<groupId>org.codehaus.mojo</groupId>-->
-        <!--<artifactId>build-helper-maven-plugin</artifactId>-->
-        <!--<executions>-->
-          <!--<execution>-->
-            <!--<id>add-generated-assertions-folder</id>-->
-            <!--<phase>generate-test-sources</phase>-->
-            <!--<goals>-->
-              <!--<goal>add-test-source</goal>-->
-            <!--</goals>-->
-            <!--<configuration>-->
-              <!--<sources>-->
-                <!--<source>${generated-assertions-folder}</source>-->
-              <!--</sources>-->
-            <!--</configuration>-->
-          <!--</execution>-->
-        <!--</executions>-->
-      <!--</plugin>-->
-      <!--<plugin>-->
-        <!--<groupId>org.assertj</groupId>-->
-        <!--<artifactId>assertj-assertions-generator-maven-plugin</artifactId>-->
-
-        <!--<executions>-->
-          <!--<execution>-->
-            <!--<goals>-->
-              <!--<goal>generate-assertions</goal>-->
-            <!--</goals>-->
-          <!--</execution>-->
-        <!--</executions>-->
-
-        <!--<configuration>-->
-
-          <!--<packages>-->
-            <!--<package>org.activiti.services.core.model</package>-->
-            <!--<package>org.activiti.services.audit.events</package>-->
-          <!--</packages>-->
-          <!--<classes>-->
-            <!--<class>org.springframework.http.ResponseEntity</class>-->
-          <!--</classes>-->
-
-          <!--&lt;!&ndash; whether generated assertions classes can be inherited with consistent assertion chaining &ndash;&gt;-->
-          <!--<hierarchical>true</hierarchical>-->
-
-          <!--&lt;!&ndash; where to generate assertions entry point classes &ndash;&gt;-->
-          <!--<entryPointClassPackage>${generated-assertions-package}</entryPointClassPackage>-->
-
-          <!--<excludes>-->
-            <!--<param>org\.activiti\.services\.core\.model\.converter.*</param>-->
-            <!--<param>org\.activiti\.services\.core\.model\.commands.*</param>-->
-          <!--</excludes>-->
-
-          <!--<targetDir>${generated-assertions-folder}</targetDir>-->
-          <!--<generateAssertions>true</generateAssertions>-->
-          <!--<generateBddAssertions>false</generateBddAssertions>-->
-          <!--<generateSoftAssertions>false</generateSoftAssertions>-->
-          <!--<generateJUnitSoftAssertions>false</generateJUnitSoftAssertions>-->
-
-        <!--</configuration>-->
-      <!--</plugin>-->
     </plugins>
   </build>
 
