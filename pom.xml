@@ -12,18 +12,6 @@
   <artifactId>activiti-cloud-starters-root</artifactId>
   <packaging>pom</packaging>
 
-  <dependencyManagement>
-    <dependencies>
-      <!-- Activiti Modules for managed dependencies -->
-      <dependency>
-        <groupId>org.activiti.cloud</groupId>
-        <artifactId>activiti-cloud-dependencies</artifactId>
-        <version>${version.activiti.cloud}</version>
-      </dependency>
-
-    </dependencies>
-  </dependencyManagement>
-
   <modules>
     <module>activiti-cloud-starter-runtime-bundle</module>
     <module>activiti-cloud-starter-configure</module>
