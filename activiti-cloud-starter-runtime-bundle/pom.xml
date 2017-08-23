@@ -186,15 +186,8 @@
           <images>
             <!-- A single's image configuration -->
             <image>
-              <name>activiti-keycloak</name>
-              <alias>keycloak</alias>
-              <build>
-                <dockerFile>${main.basedir}/docker/keycloak/Dockerfile</dockerFile>
-                <cleanup>remove</cleanup>
-                <nocache>false</nocache>
-                <compression>gzip</compression>
-                <skip>false</skip>
-              </build>
+              <name>activiti/activiti-cloud-keycloak</name>
+              <alias>activiti-cloud-keycloak</alias>
               <run>
                 <ports>
                   <port>8180:8180</port>
@@ -252,6 +245,7 @@
             <phase>post-integration-test</phase>
             <goals>
               <goal>stop</goal>
+              <goal>remove</goal>
             </goals>
           </execution>
         </executions>
