@@ -18,14 +18,16 @@ package org.activiti.cloud.starter.audit.tests.it;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
-import org.activiti.cloud.starter.audit.tests.JpaAuditApplication;
 import org.activiti.services.api.events.ProcessEngineEvent;
 import org.activiti.services.audit.EventsRepository;
 import org.activiti.services.audit.events.ActivityStartedEventEntity;
 import org.activiti.services.audit.events.ActivityStartedEventEntityAssert;
 import org.activiti.services.audit.events.ProcessEngineEventEntity;
+import org.activiti.services.audit.events.TaskAssignedEventEntity;
+import org.activiti.services.audit.events.TaskAssignedEventEntityAssert;
 import org.activiti.starters.test.MockProcessEngineEvent;
 import org.activiti.starters.test.MyProducer;
 import org.junit.Before;
@@ -41,7 +43,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import static org.assertj.core.api.Assertions.*;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = {JpaAuditApplication.class,EventsRestTemplate.class,EventsRepository.class,MyProducer.class})
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @DirtiesContext
 public class AuditServiceIT {
 
@@ -161,6 +163,52 @@ public class AuditServiceIT {
     private void waitForMessage() throws InterruptedException {
         //FIXME improve the waiting mechanism
         Thread.sleep(500);
+    }
+
+    @Test
+    public void shouldBeAbleToFilterOnProcessInstanceId() throws Exception {
+        //given
+        List<ProcessEngineEvent> coveredEvents = getCoveredEvents();
+        for (ProcessEngineEvent event : coveredEvents) {
+            producer.send(event);
+        }
+        waitForMessage();
+
+        //when
+        ResponseEntity<PagedResources<ProcessEngineEventEntity>> eventsPagedResources = eventsRestTemplate.executeFind(Collections.singletonMap("processInstanceId",
+                                                                                                                                                "4"));
+
+        //then
+        Collection<ProcessEngineEventEntity> retrievedEvents = eventsPagedResources.getBody().getContent();
+        assertThat(retrievedEvents).hasSize(1);
+        ActivityStartedEventEntityAssert.assertThat((ActivityStartedEventEntity) retrievedEvents.iterator().next())
+                .hasEventType("ActivityStartedEvent")
+                .hasExecutionId("2")
+                .hasProcessDefinitionId("3")
+                .hasProcessInstanceId("4");
+    }
+
+    @Test
+    public void shouldBeAbleToFilterOnEventType() throws Exception {
+        //given
+        List<ProcessEngineEvent> coveredEvents = getCoveredEvents();
+        for (ProcessEngineEvent event : coveredEvents) {
+            producer.send(event);
+        }
+        waitForMessage();
+
+        //when
+        ResponseEntity<PagedResources<ProcessEngineEventEntity>> eventsPagedResources = eventsRestTemplate.executeFind(Collections.singletonMap("eventType",
+                                                                                                                                                "TaskAssignedEvent"));
+
+        //then
+        Collection<ProcessEngineEventEntity> retrievedEvents = eventsPagedResources.getBody().getContent();
+        assertThat(retrievedEvents).hasSize(1);
+        TaskAssignedEventEntityAssert.assertThat((TaskAssignedEventEntity) retrievedEvents.iterator().next())
+                .hasEventType("TaskAssignedEvent")
+                .hasExecutionId("15")
+                .hasProcessDefinitionId("27")
+                .hasProcessInstanceId("46");
     }
 
     @Test
