@@ -16,6 +16,8 @@
 
 package org.activiti.cloud.starter.audit.tests.it;
 
+import java.util.Map;
+
 import org.activiti.services.audit.events.ProcessEngineEventEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.web.client.TestRestTemplate;
@@ -31,29 +33,48 @@ import static org.activiti.test.Assertions.assertThat;
 @Component
 public class EventsRestTemplate {
 
-    private static final String RELATIVE_EVENTS_ENDPOINT = "/v1/events/";
+    private static final String RELATIVE_EVENTS_ENDPOINT = "/v1/events";
 
     @Autowired
     private TestRestTemplate restTemplate;
 
     public ResponseEntity<PagedResources<ProcessEngineEventEntity>> executeFindAll() {
         ResponseEntity<PagedResources<ProcessEngineEventEntity>> eventsResponse = restTemplate.exchange(RELATIVE_EVENTS_ENDPOINT,
-                                                                                                  HttpMethod.GET,
-                                                                                                  null,
-                                                                                                  new ParameterizedTypeReference<PagedResources<ProcessEngineEventEntity>>() {
-                                                                                                  });
+                                                                                                        HttpMethod.GET,
+                                                                                                        null,
+                                                                                                        new ParameterizedTypeReference<PagedResources<ProcessEngineEventEntity>>() {
+                                                                                                        });
+        assertThat(eventsResponse).hasStatusCode(HttpStatus.OK);
+        return eventsResponse;
+    }
+
+    public ResponseEntity<PagedResources<ProcessEngineEventEntity>> executeFind(Map<String, Object> filters) {
+
+        StringBuilder endPointBuilder = new StringBuilder(RELATIVE_EVENTS_ENDPOINT).append("?");
+        for (String filter : filters.keySet()) {
+            endPointBuilder.append(filter)
+                    .append("={")
+                    .append(filter)
+                    .append("}")
+                    .append("&");
+        }
+        ResponseEntity<PagedResources<ProcessEngineEventEntity>> eventsResponse = restTemplate.exchange(endPointBuilder.toString(),
+                                                                                                        HttpMethod.GET,
+                                                                                                        null,
+                                                                                                        new ParameterizedTypeReference<PagedResources<ProcessEngineEventEntity>>() {
+                                                                                                        },
+                                                                                                        filters);
         assertThat(eventsResponse).hasStatusCode(HttpStatus.OK);
         return eventsResponse;
     }
 
     public ResponseEntity<ProcessEngineEventEntity> executeFindById(long id) {
-        ResponseEntity<ProcessEngineEventEntity> responseEntity = restTemplate.exchange(RELATIVE_EVENTS_ENDPOINT + id,
-                                                                                  HttpMethod.GET,
-                                                                                  null,
-                                                                                  new ParameterizedTypeReference<ProcessEngineEventEntity>() {
-                                                                                  });
+        ResponseEntity<ProcessEngineEventEntity> responseEntity = restTemplate.exchange(RELATIVE_EVENTS_ENDPOINT + "/" + id,
+                                                                                        HttpMethod.GET,
+                                                                                        null,
+                                                                                        new ParameterizedTypeReference<ProcessEngineEventEntity>() {
+                                                                                        });
         assertThat(responseEntity).hasStatusCode(HttpStatus.OK);
         return responseEntity;
     }
-
 }
