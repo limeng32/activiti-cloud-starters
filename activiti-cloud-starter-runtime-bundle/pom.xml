@@ -2,13 +2,13 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>org.activiti</groupId>
+    <groupId>org.activiti.cloud</groupId>
     <artifactId>activiti-cloud-starters-root</artifactId>
     <version>7-201708-EA-SNAPSHOT</version>
   </parent>
 
   <artifactId>activiti-cloud-starter-runtime-bundle</artifactId>
-
+  <name>Activiti Cloud Starter :: Runtime Bundle</name>
   <dependencies>
 
     <dependency>
@@ -17,7 +17,7 @@
       <scope>runtime</scope>
     </dependency>
     <dependency>
-      <groupId>org.activiti</groupId>
+      <groupId>org.activiti.cloud</groupId>
       <artifactId>activiti-cloud-starter-configure</artifactId>
     </dependency>
     <dependency>
@@ -182,6 +182,7 @@
       <plugin>
         <groupId>io.fabric8</groupId>
         <artifactId>docker-maven-plugin</artifactId>
+        <version>${maven.docker.plugin.version}</version>
         <configuration>
           <images>
             <!-- A single's image configuration -->

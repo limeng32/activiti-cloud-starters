@@ -2,13 +2,13 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>org.activiti</groupId>
+    <groupId>org.activiti.cloud</groupId>
     <artifactId>activiti-cloud-starters-root</artifactId>
     <version>7-201708-EA-SNAPSHOT</version>
   </parent>
 
   <artifactId>activiti-cloud-starter-audit</artifactId>
-
+  <name>Activiti Cloud Starter :: Audit</name>
   <dependencies>
     <dependency>
       <groupId>org.activiti</groupId>
@@ -157,8 +157,8 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>org.activiti</groupId>
-      <artifactId>activiti-cloud-starters-tests</artifactId>
+      <groupId>org.activiti.cloud</groupId>
+      <artifactId>activiti-cloud-starter-test</artifactId>
       <scope>test</scope>
     </dependency>
   </dependencies>
@@ -171,6 +171,7 @@
       <plugin>
         <groupId>io.fabric8</groupId>
         <artifactId>docker-maven-plugin</artifactId>
+        <version>${maven.docker.plugin.version}</version>
         <configuration>
           <images>
             <!-- A single's image configuration -->

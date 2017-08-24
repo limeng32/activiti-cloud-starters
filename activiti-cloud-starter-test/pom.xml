@@ -2,13 +2,13 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>org.activiti</groupId>
+    <groupId>org.activiti.cloud</groupId>
     <artifactId>activiti-cloud-starters-root</artifactId>
     <version>7-201708-EA-SNAPSHOT</version>
   </parent>
 
-  <name>Activiti Cloud Starters Tests</name>
-  <artifactId>activiti-cloud-starters-tests</artifactId>
+  <artifactId>activiti-cloud-starter-test</artifactId>
+  <name>Activiti Cloud Starter :: Test</name>
 
   <dependencies>
     <dependency>
