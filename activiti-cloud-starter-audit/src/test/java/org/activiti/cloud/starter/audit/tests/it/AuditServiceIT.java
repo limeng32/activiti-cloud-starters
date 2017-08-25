@@ -16,6 +16,9 @@
 
 package org.activiti.cloud.starter.audit.tests.it;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.tuple;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -40,8 +43,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import static org.assertj.core.api.Assertions.*;
-
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @DirtiesContext
@@ -65,9 +66,7 @@ public class AuditServiceIT {
     public void findAllShouldReturnAllAvailableEvents() throws Exception {
         //given
         List<ProcessEngineEvent> coveredEvents = getCoveredEvents();
-        for (ProcessEngineEvent event : coveredEvents) {
-            producer.send(event);
-        }
+        producer.send(coveredEvents.toArray(new ProcessEngineEvent[coveredEvents.size()]));
         waitForMessage();
 
         //when
@@ -78,15 +77,15 @@ public class AuditServiceIT {
         assertThat(retrievedEvents).hasSameSizeAs(coveredEvents);
         for (ProcessEngineEvent coveredEvent : coveredEvents) {
             assertThat(retrievedEvents)
-                    .extracting(
-                            ProcessEngineEventEntity::getEventType,
-                            ProcessEngineEventEntity::getExecutionId,
-                            ProcessEngineEventEntity::getProcessDefinitionId,
-                            ProcessEngineEventEntity::getProcessInstanceId)
-                    .contains(tuple(coveredEvent.getEventType(),
-                                    coveredEvent.getExecutionId(),
-                                    coveredEvent.getProcessDefinitionId(),
-                                    coveredEvent.getProcessInstanceId()));
+                                       .extracting(
+                                                   ProcessEngineEventEntity::getEventType,
+                                                   ProcessEngineEventEntity::getExecutionId,
+                                                   ProcessEngineEventEntity::getProcessDefinitionId,
+                                                   ProcessEngineEventEntity::getProcessInstanceId)
+                                       .contains(tuple(coveredEvent.getEventType(),
+                                                       coveredEvent.getExecutionId(),
+                                                       coveredEvent.getProcessDefinitionId(),
+                                                       coveredEvent.getProcessInstanceId()));
         }
     }
 
@@ -169,9 +168,7 @@ public class AuditServiceIT {
     public void shouldBeAbleToFilterOnProcessInstanceId() throws Exception {
         //given
         List<ProcessEngineEvent> coveredEvents = getCoveredEvents();
-        for (ProcessEngineEvent event : coveredEvents) {
-            producer.send(event);
-        }
+        producer.send(coveredEvents.toArray(new ProcessEngineEvent[coveredEvents.size()]));
         waitForMessage();
 
         //when
@@ -192,9 +189,7 @@ public class AuditServiceIT {
     public void shouldBeAbleToFilterOnEventType() throws Exception {
         //given
         List<ProcessEngineEvent> coveredEvents = getCoveredEvents();
-        for (ProcessEngineEvent event : coveredEvents) {
-            producer.send(event);
-        }
+        producer.send(coveredEvents.toArray(new ProcessEngineEvent[coveredEvents.size()]));
         waitForMessage();
 
         //when
@@ -214,11 +209,13 @@ public class AuditServiceIT {
     @Test
     public void findByIdShouldReturnTheEventIdentifiedByTheGivenId() throws Exception {
         //given
-        producer.send(new MockProcessEngineEvent(System.currentTimeMillis(),
-                                                 "ActivityStartedEvent",
-                                                 "2",
-                                                 "3",
-                                                 "4"));
+        ProcessEngineEvent[] events = new ProcessEngineEvent[1];
+        events[0] = new MockProcessEngineEvent(System.currentTimeMillis(),
+                                               "ActivityStartedEvent",
+                                               "2",
+                                               "3",
+                                               "4");
+        producer.send(events);
 
         waitForMessage();
 
@@ -232,11 +229,11 @@ public class AuditServiceIT {
         //then
         assertThat(responseEntity.getBody()).isInstanceOf(ActivityStartedEventEntity.class);
         ActivityStartedEventEntityAssert.assertThat((ActivityStartedEventEntity) responseEntity.getBody())
-                .hasId(event.getId())
-                .hasEventType("ActivityStartedEvent")
-                .hasExecutionId("2")
-                .hasProcessDefinitionId("3")
-                .hasProcessInstanceId("4");
+                                        .hasId(event.getId())
+                                        .hasEventType("ActivityStartedEvent")
+                                        .hasExecutionId("2")
+                                        .hasProcessDefinitionId("3")
+                                        .hasProcessInstanceId("4");
     }
 
 }

@@ -44,8 +44,9 @@ public abstract class VariableEventBuilder<E extends MockVariableEvent, B> {
 
     protected abstract E getEvent();
 
-    public E build(){
-        return getEvent();
+    public MockVariableEvent[] build() {
+        MockVariableEvent[] events = {getEvent()};
+        return events;
     }
 
 }

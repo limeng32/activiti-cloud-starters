@@ -31,6 +31,9 @@ public class MockProcessEngineEvent implements ProcessEngineEvent {
     private String processDefinitionId;
     private String processInstanceId;
 
+    public MockProcessEngineEvent() {
+    }
+
     public MockProcessEngineEvent(Long timestamp,
                                   String eventType) {
         this.timestamp = timestamp;
@@ -49,26 +52,28 @@ public class MockProcessEngineEvent implements ProcessEngineEvent {
         this.processInstanceId = processInstanceId;
     }
 
-    public static ProcessEngineEvent aProcessStartedEvent(Long timestamp,
+    public static ProcessEngineEvent[] aProcessStartedEvent(Long timestamp,
                                                           String executionId,
                                                           String processDefinitionId,
                                                           String processInstanceId) {
-        return new MockProcessEngineEvent(timestamp,
-                                          "ProcessStartedEvent",
-                                          executionId,
-                                          processDefinitionId,
-                                          processInstanceId);
+        ProcessEngineEvent[] events = {new MockProcessEngineEvent(timestamp,
+                                                                  "ProcessStartedEvent",
+                                                                  executionId,
+                                                                  processDefinitionId,
+                                                                  processInstanceId)};
+        return events;
     }
 
-    public static ProcessEngineEvent aProcessCompletedEvent(Long timestamp,
+    public static ProcessEngineEvent[] aProcessCompletedEvent(Long timestamp,
                                                             String executionId,
                                                             String processDefinitionId,
                                                             String processInstanceId) {
-        return new MockProcessEngineEvent(timestamp,
+        ProcessEngineEvent[] events = {new MockProcessEngineEvent(timestamp,
                                           "ProcessCompletedEvent",
                                           executionId,
                                           processDefinitionId,
-                                          processInstanceId);
+                                                                  processInstanceId)};
+        return events;
     }
 
     @Override

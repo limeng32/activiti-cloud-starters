@@ -12,28 +12,31 @@ public class MockTaskEvent extends MockProcessEngineEvent {
               eventType);
     }
 
-    public static ProcessEngineEvent aTaskCreatedEvent(long timestamp,
+    public static ProcessEngineEvent[] aTaskCreatedEvent(long timestamp,
                                                        Task task) {
         MockTaskEvent taskCreatedEvent = new MockTaskEvent(timestamp,
                                                            "TaskCreatedEvent");
         taskCreatedEvent.setTask(task);
-        return taskCreatedEvent;
+        ProcessEngineEvent[] events = {taskCreatedEvent};
+        return events;
     }
 
-    public static ProcessEngineEvent aTaskAssignedEvent(long timestamp,
+    public static ProcessEngineEvent[] aTaskAssignedEvent(long timestamp,
                                                        Task task) {
-        MockTaskEvent taskCreatedEvent = new MockTaskEvent(timestamp,
+        MockTaskEvent taskAssignedEvent = new MockTaskEvent(timestamp,
                                                            "TaskAssignedEvent");
-        taskCreatedEvent.setTask(task);
-        return taskCreatedEvent;
+        taskAssignedEvent.setTask(task);
+        ProcessEngineEvent[] events = {taskAssignedEvent};
+        return events;
     }
 
-    public static ProcessEngineEvent aTaskCompletedEvent(long timestamp,
+    public static ProcessEngineEvent[] aTaskCompletedEvent(long timestamp,
                                                        Task task) {
-        MockTaskEvent taskCreatedEvent = new MockTaskEvent(timestamp,
+        MockTaskEvent taskCompletedEvent = new MockTaskEvent(timestamp,
                                                            "TaskCompletedEvent");
-        taskCreatedEvent.setTask(task);
-        return taskCreatedEvent;
+        taskCompletedEvent.setTask(task);
+        ProcessEngineEvent[] events = {taskCompletedEvent};
+        return events;
     }
 
     public void setTask(Task task) {

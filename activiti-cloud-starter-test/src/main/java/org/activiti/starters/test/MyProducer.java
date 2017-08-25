@@ -34,7 +34,7 @@ public class MyProducer {
         this.producer = producer;
     }
 
-    public void send(ProcessEngineEvent newEvent) {
-        producer.send(MessageBuilder.withPayload(newEvent).build());
+    public void send(ProcessEngineEvent[] newEvents) {
+        producer.send(MessageBuilder.withPayload(newEvents).build());
     }
 }
