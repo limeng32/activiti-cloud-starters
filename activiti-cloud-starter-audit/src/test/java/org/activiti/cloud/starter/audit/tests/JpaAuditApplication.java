@@ -17,15 +17,10 @@
 package org.activiti.cloud.starter.audit.tests;
 
 import org.activiti.cloud.starter.configuration.EnableActivitiAudit;
-import org.activiti.services.audit.AuditConsumerChannels;
-import org.activiti.services.audit.EventsRepository;
-import org.activiti.services.audit.events.ProcessEngineEventEntity;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.sleuth.sampler.AlwaysSampler;
-import org.springframework.cloud.stream.annotation.StreamListener;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 
@@ -33,13 +28,6 @@ import org.springframework.context.annotation.ComponentScan;
 @EnableActivitiAudit
 @ComponentScan("org.activiti")
 public class JpaAuditApplication implements CommandLineRunner {
-
-    private final EventsRepository eventsRepository;
-
-    @Autowired
-    public JpaAuditApplication(EventsRepository eventsRepository) {
-        this.eventsRepository = eventsRepository;
-    }
 
     public static void main(String[] args) {
         SpringApplication.run(JpaAuditApplication.class,
@@ -49,13 +37,6 @@ public class JpaAuditApplication implements CommandLineRunner {
     @Override
     public void run(String... strings) throws Exception {
 
-    }
-
-    @StreamListener(AuditConsumerChannels.AUDIT_CONSUMER)
-    public synchronized void receive(ProcessEngineEventEntity[] events) {
-        for (ProcessEngineEventEntity event : events) {
-            eventsRepository.save(event);
-        }
     }
 
     @Bean
