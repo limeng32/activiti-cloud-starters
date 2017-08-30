@@ -176,8 +176,8 @@
           <images>
             <!-- A single's image configuration -->
             <image>
-              <name>activiti/activiti-cloud-keycloak</name>
-              <alias>activiti-cloud-keycloak</alias>
+              <name>activiti/activiti-cloud-sso-idm</name>
+              <alias>activiti-cloud-sso-idm</alias>
               <run>
                 <ports>
                   <port>8180:8180</port>
