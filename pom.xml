@@ -16,6 +16,7 @@
     <module>activiti-cloud-starter-runtime-bundle</module>
     <module>activiti-cloud-starter-configure</module>
     <module>activiti-cloud-starter-audit</module>
+    <module>activiti-cloud-starter-audit-mongo</module>
     <module>activiti-cloud-starter-query</module>
     <module>activiti-cloud-starter-test</module>
   </modules>
