@@ -18,11 +18,13 @@ package org.activiti.cloud.starter.audit.mongo.tests.it;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
+import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -68,10 +70,10 @@ public class AuditServiceIT {
         waitForMessage();
 
         //when
-        ResponseEntity<PagedResources<EventLogDocument>> eventsPagedResources = eventsRestTemplate.executeFindAll();
+        ResponseEntity<PagedResources<Map<String, Object>>> eventsPagedResources = eventsRestTemplate.executeFindAll();
 
         //then
-        Collection<EventLogDocument> messageList = eventsPagedResources.getBody().getContent();
+        Collection<Map<String, Object>> messageList = eventsPagedResources.getBody().getContent();
         List<ProcessEngineEvent> retrievedEvents = convert(messageList);
         assertThat(retrievedEvents).hasSameSizeAs(coveredEvents);
         for (ProcessEngineEvent coveredEvent : coveredEvents) {
@@ -158,16 +160,17 @@ public class AuditServiceIT {
         return coveredEvents;
     }
 
-    private List<ProcessEngineEvent> convert(Collection<EventLogDocument> messageList) throws JsonParseException,
+    @SuppressWarnings("unchecked")
+    private List<ProcessEngineEvent> convert(Collection<Map<String, Object>> messageList) throws JsonParseException,
                                                                         JsonMappingException,
                                                                         IOException {
         List<ProcessEngineEvent> list = new ArrayList<>();
-        for (EventLogDocument messaage : messageList) {
-            list.add(new MockProcessEngineEvent((Long) messaage.get("timestamp"),
-                                                (String) messaage.get("eventType"),
-                                                (String) messaage.get("executionId"),
-                                                (String) messaage.get("processDefinitionId"),
-                                                (String) messaage.get("processInstanceId")));
+        for (Map<String, Object> messaage : messageList) {
+            list.add(new MockProcessEngineEvent((Long) ((Map<String, Object>) messaage.get("content")).get("timestamp"),
+                                                (String) ((Map<String, Object>) messaage.get("content")).get("eventType"),
+                                                (String) ((Map<String, Object>) messaage.get("content")).get("executionId"),
+                                                (String) ((Map<String, Object>) messaage.get("content")).get("processDefinitionId"),
+                                                (String) ((Map<String, Object>) messaage.get("content")).get("processInstanceId")));
         }
         return list;
     }
@@ -176,4 +179,39 @@ public class AuditServiceIT {
         //FIXME improve the waiting mechanism
         Thread.sleep(500);
     }
+
+    @Test
+    public void findByIdShouldReturnTheEventIdentifiedByTheGivenId() throws Exception {
+        //given
+        ProcessEngineEvent[] events = new ProcessEngineEvent[1];
+        events[0] = new MockProcessEngineEvent(System.currentTimeMillis(),
+                                               "ActivityStartedEvent",
+                                               "2",
+                                               "3",
+                                               "4");
+        producer.send(events);
+
+        waitForMessage();
+
+        ResponseEntity<PagedResources<Map<String, Object>>> eventsPagedResources = eventsRestTemplate.executeFindAll();
+        assertThat(eventsPagedResources.getBody().getContent()).isNotEmpty();
+        @SuppressWarnings("unchecked")
+        Map<String, Object> event = (Map<String, Object>) eventsPagedResources.getBody()
+                                                                              .getContent()
+                                                                              .iterator()
+                                                                              .next()
+                                                                              .get("content");
+
+        //when
+        ResponseEntity<EventLogDocument> responseEntity = eventsRestTemplate.executeFindById((String) event.get("id"));
+
+        //then
+        assertEquals(((Map<String, Object>) responseEntity.getBody().get("content")).get("id"), event.get("id"));
+        assertEquals(((Map<String, Object>) responseEntity.getBody().get("content")).get("eventType"),
+                     "ActivityStartedEvent");
+        assertEquals(((Map<String, Object>) responseEntity.getBody().get("content")).get("executionId"), "2");
+        assertEquals(((Map<String, Object>) responseEntity.getBody().get("content")).get("processDefinitionId"), "3");
+        assertEquals(((Map<String, Object>) responseEntity.getBody().get("content")).get("processInstanceId"), "4");
+    }
+
 }

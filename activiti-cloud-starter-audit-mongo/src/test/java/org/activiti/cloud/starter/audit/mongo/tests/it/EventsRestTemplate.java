@@ -16,12 +16,17 @@
 
 package org.activiti.cloud.starter.audit.mongo.tests.it;
 
+import static org.junit.Assert.assertEquals;
+
+import java.util.Map;
+
 import org.activiti.services.audit.mongo.entity.EventLogDocument;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.hateoas.PagedResources;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
@@ -33,24 +38,24 @@ public class EventsRestTemplate {
     @Autowired
     private TestRestTemplate restTemplate;
 
-    public ResponseEntity<PagedResources<EventLogDocument>> executeFindAll() {
-        ResponseEntity<PagedResources<EventLogDocument>> eventsResponse = restTemplate.exchange(RELATIVE_EVENTS_ENDPOINT,
+    public ResponseEntity<PagedResources<Map<String, Object>>> executeFindAll() {
+        ResponseEntity<PagedResources<Map<String, Object>>> eventsResponse = restTemplate.exchange(RELATIVE_EVENTS_ENDPOINT,
                                                                                                         HttpMethod.GET,
                                                                                                         null,
-                                                                                                new ParameterizedTypeReference<PagedResources<EventLogDocument>>() {
+                                                                                                new ParameterizedTypeReference<PagedResources<Map<String, Object>>>() {
                                                                                                         });
-        //assertThat(eventsResponse).hasStatusCode(HttpStatus.OK);
+        assertEquals(eventsResponse.getStatusCode(), HttpStatus.OK);
         return eventsResponse;
     }
 
 
-    public ResponseEntity<EventLogDocument> executeFindById(long id) {
+    public ResponseEntity<EventLogDocument> executeFindById(String id) {
         ResponseEntity<EventLogDocument> responseEntity = restTemplate.exchange(RELATIVE_EVENTS_ENDPOINT + "/" + id,
                                                                                         HttpMethod.GET,
                                                                                         null,
                                                                                 new ParameterizedTypeReference<EventLogDocument>() {
                                                                                         });
-        //assertThat(responseEntity).hasStatusCode(HttpStatus.OK);
+        assertEquals(responseEntity.getStatusCode(), HttpStatus.OK);
         return responseEntity;
     }
 }
